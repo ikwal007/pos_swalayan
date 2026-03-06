@@ -48,7 +48,7 @@ import {
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import type { PaginationResult } from "@/types/pagination-result.interface";
 import { useEffect, useState, type FC, type SetStateAction } from "react";
-import { fetchDataPagination } from "@/lib/fetchDataPagination";
+import { fetchData } from "@/lib/fatchData";
 
 export function DataTable<T extends object>({
   data,
@@ -72,9 +72,7 @@ export function DataTable<T extends object>({
   });
 
   useEffect(() => {
-    fetchDataPagination<T>({ path: fetchPath, pagination }).then((res) =>
-      setData(res),
-    );
+    fetchData<T>({ path: fetchPath, pagination }).then((res) => setData(res));
   }, [pagination.pageIndex, pagination.pageSize]);
 
   const table = useReactTable<T>({
