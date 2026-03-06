@@ -36,11 +36,10 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { FetchDataDelete } from "@/lib/fetchDataDelete";
-import { fetchDataPagination } from "@/lib/fetchDataPagination";
 import { formatDate } from "@/lib/format-date";
-import type { PaginationResult } from "@libs/pagination/pagination-result.interface";
-import type { Category } from "@prisma/client";
+import { deleteCategory, getAllCategorys } from "@/services/categorys.service";
+import type { PaginationResult } from "@/types/pagination-result.interface";
+import { Category } from "@/types/prisma";
 import {
   IconDotsVertical,
   IconPlus,
@@ -62,7 +61,7 @@ async function DeleteCategory(
   >,
 ) {
   try {
-    const resDelete = await FetchDataDelete(id, "DELETE", "category");
+    const resDelete = await deleteCategory(id);
 
     if (resDelete.statusCode === 204) {
       toast.success("Category deleted successfully");
@@ -71,10 +70,7 @@ async function DeleteCategory(
     }
 
     // Refresh data after delete
-    const data = await fetchDataPagination<Category>({
-      path: "category",
-      pagination: null,
-    });
+    const data = await deleteCategory(id);
     setData(data);
   } catch (err) {
     toast.error("Failed to delete category");
@@ -120,7 +116,7 @@ const columns = (
     header: "Slug Category",
     cell: ({ row }) => (
       <div className="w-32">
-        <span className="px-1.5">{row.original.slug}</span>
+        <span className="px-1.5">{row.original.name}</span>
       </div>
     ),
   },
@@ -349,10 +345,7 @@ export default function DashboardAllCategory() {
   const [data, setData] = useState<PaginationResult<Category> | null>(null);
 
   useEffect(() => {
-    const data = fetchDataPagination<Category>({
-      path: "category",
-      pagination: null,
-    });
+    const data = getAllCategorys();
     data.then((res) => setData(res));
   }, []);
 

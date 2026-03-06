@@ -46,7 +46,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-import type { PaginationResult } from "@libs/pagination/pagination-result.interface";
+import type { PaginationResult } from "@/types/pagination-result.interface";
 import { useEffect, useState, type FC, type SetStateAction } from "react";
 import { fetchDataPagination } from "@/lib/fetchDataPagination";
 
