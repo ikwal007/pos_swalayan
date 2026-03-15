@@ -38,8 +38,8 @@ import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { formatDate } from "@/lib/format-date";
 import { deleteCategory, getAllCategorys } from "@/services/categorys.service";
+import type { Category } from "@/types/create-category-input.interface";
 import type { PaginationResult } from "@/types/pagination-result.interface";
-import { Category } from "@/types/prisma";
 import {
   IconDotsVertical,
   IconPlus,
