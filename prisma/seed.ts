@@ -2,6 +2,8 @@ import "dotenv/config";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../prisma/generated/client";
+import { seedRoles } from "./seeders/seedRoles";
+import { seedCategories } from "./seeders/seedCategories";
 
 /**
  * Seed script untuk mengisi data awal ke database.
@@ -26,38 +28,11 @@ const adapter = new PrismaPg(pool as any);
 const prisma = new PrismaClient({ adapter });
 
 /**
- * Data role yang akan di-seed ke database.
- */
-const roles = [
-  { name: "admin" },
-  { name: "kasir" },
-  { name: "owner" },
-  { name: "pelanggan" },
-];
-
-/**
  * Fungsi utama untuk menjalankan seeding.
  */
 async function main() {
-  console.log("Starting database seeding...");
-
-  const createdRoles = [];
-
-  for (const roleData of roles) {
-    const role = await prisma.roles.upsert({
-      where: { name: roleData.name },
-      update: {},
-      create: roleData,
-    });
-    createdRoles.push(role);
-    console.log(`Role created/updated: ${role.name}`);
-  }
-
-  console.log("Seeding completed successfully!");
-  console.log(
-    "Created roles:",
-    createdRoles.map((r) => r.name),
-  );
+  await seedRoles(prisma);
+  await seedCategories(prisma);
 }
 
 /**
