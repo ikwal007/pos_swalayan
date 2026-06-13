@@ -1,6 +1,6 @@
 // src/common/pagination/pagination-result.interface.ts
 export interface PaginationResult<T> {
-  data: T[];
+  data: T[] | null;
   meta: {
     current_page: number;
     per_page: number;
